@@ -1,0 +1,143 @@
+<html>
+
+<head>
+    <title>Employee Directory</title>
+    <link rel="icon" href="favicon.ico" type="ico" sizes="16x16">
+    <link href="lib/bootstrap/css/bootstrap.min.css" rel="stylesheet"></link>
+    <link href="stylesheets/style.css" rel="stylesheet"></link>
+    <style>
+
+    </style>
+</head>
+
+<body ng-app="directoryApp" ng-controller="directoryCtrl as vmApp">
+    <div class="container" ng-cloak>
+        <div class="jumbotron text-center blueBG">
+            <h3>Employee Directory</h3>
+        </div>
+        <div ng-show="!vmApp.empEdit" class="container" ng-click="vmApp.empEdit=true">
+            <div class="createNew">
+                Create New Employee
+            </div>
+        </div>
+        <div ng-show="vmApp.empEdit">
+            <form class="form-group" name="employeeForm">
+                <div>
+                    <div class="inputContainer">
+                        <div class="labelField">Name</div>
+                        <div class="inputField">
+                            <input class="form-control" name="empName" type="text" ng-model="vmApp.emp.Name" required placeholder="Name">
+                            <div ng-messages="employeeForm.empName.$error" ng-if="employeeForm.empName.$touched" class="alertMsg">
+                                <div ng-message="required">This field is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <div class="labelField">Email</div>
+                        <div class="inputField">
+                            <input class="form-control" name="empEmail" type="email" ng-model="vmApp.emp.Email" required placeholder="abc@xyz.com" \ ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/">
+                            <div ng-messages="employeeForm.empEmail.$error" ng-if="employeeForm.empEmail.$touched" class="alertMsg">
+                                <div ng-message="required">This field is required</div>
+                                <div ng-message="pattern">Email is not valid</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <div class="labelField">DOB</div>
+                        <div class="inputField">
+                            <input class="form-control" name="empDOB" type="text" ng-model="vmApp.emp.DOB" required placeholder="YYYY/mm/dd" uib-datepicker-popup="yyyy/MMM/dd" ng-click="vmApp.calendar()" is-open="vmApp.toggleCalendar" ng-readonly="true" ng-change="vmApp.calculateAge()"
+                                datepicker-options="{formatYear :'yyyy', formatMonth :'MMM' ,formatDay :'dd'}" />
+                            <div ng-messages="employeeForm.empDOB.$error" ng-if="employeeForm.empDOB.$touched" class="alertMsg">
+                                <div ng-message="required">This field is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <div class="labelField">Gender</div>
+                        <div class="inputField">
+                            <input type="radio" name="empGender" value="Male" ng-model="vmApp.emp.Gender" required />M
+                            <input type="radio" name="empGender" value="Female" ng-model="vmApp.emp.Gender" required />F
+                            <div ng-messages="employeeForm.empGender.$error" ng-if="employeeForm.empGender.$touched" class="alertMsg">
+                                <div ng-message="required">This field is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <div class="labelField">Department</div>
+                        <div class="inputField">
+                            <input class="form-control" name="empDpt" type="text" ng-model="vmApp.emp.Department" required />
+                            <div ng-messages="employeeForm.empDpt.$error" ng-if="employeeForm.empDpt.$touched" class="alertMsg">
+                                <div ng-message="required">This field is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="inputContainer">
+                        <div class="inputButton">
+                            <input type="submit" class="btn btn-success" value="Add" ng-disabled="employeeForm.$invalid" ng-if="!vmApp.isUpdateVisible" title="{{employeeForm.$invalid?'Please fill all the fields':''}}" ng-click="vmApp.empEdit=false;vmApp.AddEmployee(vmApp.emp)" />
+                        </div>
+                        <div class="inputButton">
+                            <input type="submit" class="btn btn-success" value="Update" ng-disabled="employeeForm.$invalid" ng-if="vmApp.isUpdateVisible" title="{{employeeForm.$invalid?'Please fill all the fields':''}}" ng-click="vmApp.empEdit=false;vmApp.UpdateEmployee(vmApp.emp)"
+                            />
+                        </div>
+                        <div class="inputButton">
+                            <input type="button" class="btn btn-success" value="Cancel" ng-click="vmApp.empEdit=false;vmApp.reset()" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div ng-show="!vmApp.empEdit">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>DOB</th>
+                            <th>Gender</th>
+                            <th>Age</th>
+                            <th>Department</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-if="!vmApp.loading && vmApp.empDetails.length > 0" ng-repeat="row in vmApp.empDetails track by row.email">
+                            <td>{{row.name}}</td>
+                            <td>{{row.email}}</td>
+                            <td>{{row.dob | date : "yyyy/MMM/dd"}}</td>
+                            <td>{{row.gender}}</td>
+                            <td>{{row.age}}</td>
+                            <td>{{row.department}}</td>
+                            <td>
+                                <input type="button" class="btn btn-sm btn-warning" value="Update" ng-click="vmApp.empEdit=true;vmApp.PopulateData(row);" />
+                            </td>
+                            <td>
+                                <input type="button" class="btn btn-sm btn-danger" value="Delete" ng-click="vmApp.DeleteEmployee(row)" />
+                            </td>
+                        </tr>
+                        <tr ng-if="vmApp.loading">
+                            <td colspan="12" class="loadingAnimation">Loading...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                {{vmApp.error}}
+            </div>
+        </div>
+    </div>
+
+    <!-- scripts -->
+    <script src="lib/jquery.min.js"></script>
+    <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="lib/angular.min.js"></script>
+    <script src="lib/angular-messages.min.js"></script>
+    <script src="lib/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="javascripts/module.js"></script>
+    <script src="javascripts/controller.js"></script>
+    <script src="javascripts/service.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,30 @@
+{
+    "name": "employee-directory",
+    "version": "1.0.1",
+    "description": "Empolyee directory with create, read, update, delete option",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BalaBsm/employee-directory.git"
+    },
+    "keywords": [
+        "employee",
+        "directory"
+    ],
+    "author": "Bala",
+    "license": "MIT",
+    "dependencies": {
+        "body-parser": "^1.14.2",
+        "chalk": "^1.1.1",
+        "express": "^4.13.3",
+        "mongodb": "^2.2.25",
+        "mongoose": "latest"
+    },
+    "bugs": {
+        "url": "https://github.com/BalaBsm/employee-directory/issues"
+    },
+    "homepage": "https://github.com/BalaBsm/employee-directory#readme"
+}

@@ -1,0 +1,1 @@
+var directoryApp = angular.module('directoryApp', ['ui.bootstrap', 'ngMessages']);

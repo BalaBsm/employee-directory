@@ -1,0 +1,66 @@
+        .createNew {
+            margin-bottom: 10px;
+            float: right;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            color: white;
+            background-color: #41C8D1;
+        }
+        
+        .alertMsg {
+            font-size: 12px;
+            color: red;
+        }
+        
+        .createNew:hover {
+            box-shadow: 2px 2px 2px #000000;
+        }
+        
+        .btn-group-sm>.btn,
+        .btn-sm {
+            line-height: 1.0;
+        }
+        
+        .blueBG {
+            background-color: #41C8D1;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .loadingAnimation {
+            text-align: center;
+            opacity: 1;
+            animation: fade .5s infinite;
+        }
+        
+        @keyframes fade {
+            0%,
+            100% {
+                opacity: 0
+            }
+            50% {
+                opacity: 1
+            }
+        }
+        
+        .labelField {
+            float: left;
+            width: 100px;
+            margin-right: 25px;
+        }
+        
+        .inputField {
+            float: left;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+        
+        .inputContainer {
+            width: 350px;
+        }
+        
+        .inputButton {
+            float: left;
+            margin: 0 20px;
+        }
