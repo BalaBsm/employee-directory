@@ -20,7 +20,7 @@
         "body-parser": "^1.14.2",
         "chalk": "^1.1.1",
         "express": "^4.13.3",
-        "mongodb": "^2.2.25",
+        "mongodb": "^3.6.1",
         "mongoose": "latest"
     },
     "bugs": {
